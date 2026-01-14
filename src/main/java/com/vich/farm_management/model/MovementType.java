@@ -25,5 +25,5 @@ public class MovementType {
     private Integer id;
 
     @Column(name="movement_type_name",nullable = false, unique = true)
-    private String movementTypeName;
+    private String name;
 }

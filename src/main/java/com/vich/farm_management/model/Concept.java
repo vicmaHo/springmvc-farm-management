@@ -27,7 +27,7 @@ public class Concept {
     private Integer id;
 
     @Column(name = "concept_name", nullable = false, unique = true)
-    private String conceptName;
+    private String name;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "movement_type_id", nullable = false)

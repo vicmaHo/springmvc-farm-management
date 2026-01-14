@@ -1,0 +1,100 @@
+package com.vich.farm_management.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.vich.farm_management.controller.dto.TransactionRequest;
+import com.vich.farm_management.controller.dto.TransactionResponse;
+import com.vich.farm_management.model.Concept;
+import com.vich.farm_management.model.ProductionUnit;
+import com.vich.farm_management.model.Transaction;
+import com.vich.farm_management.repository.ConceptRepository;
+import com.vich.farm_management.repository.ProductionUnitRepository;
+import com.vich.farm_management.repository.TransactionRepository;
+
+@Service
+public class TransactionServiceImpl implements TransactionService {
+
+    @Autowired
+    private TransactionRepository transactionRepository;
+
+    @Autowired
+    private ConceptRepository conceptRepository;
+
+    @Autowired
+    private ProductionUnitRepository productionUnitRepository;
+
+    @Override
+    public void saveTransaction(TransactionRequest value) {
+        
+        Concept concept = conceptRepository.findById(value.getConceptId()).orElse(null);
+        if (concept == null) {
+            throw new IllegalArgumentException("Concept not found with ID: " + value.getConceptId());
+        }
+
+        ProductionUnit productionUnit = productionUnitRepository.findById(value.getProductionUnitId()).orElse(null);
+        if (productionUnit == null) {
+            throw new IllegalArgumentException("ProductionUnit not found with ID: " + value.getProductionUnitId());
+        }
+
+        Transaction transaction = new Transaction();
+        transaction.setDate(value.getDate());
+        transaction.setAmount(value.getAmount());
+        transaction.setDescription(value.getDescription());
+        transaction.setConcept(concept);
+        transaction.setProductionUnit(productionUnit);
+        transactionRepository.save(transaction);
+    }
+
+    @Override
+    public List<TransactionResponse> getAllTransactions() {
+       
+        List<Transaction> transactions = transactionRepository.findAll();
+        return transactions.stream().map(transaction -> {
+            TransactionResponse transactionResponse = new TransactionResponse();
+            transactionResponse.setId(transaction.getId());
+            transactionResponse.setDate(transaction.getDate());
+            transactionResponse.setAmount(transaction.getAmount());
+            transactionResponse.setDescription(transaction.getDescription());
+            transactionResponse.setConceptId(transaction.getConcept().getId());
+            transactionResponse.setProductionUnitId(transaction.getProductionUnit().getId());
+            return transactionResponse;
+        }).toList();
+    }
+
+    @Override
+    public TransactionResponse getTransactionById(Integer id) {
+        Transaction transaction = transactionRepository.findById(id).orElse(null);
+        if (transaction == null) {
+            throw new IllegalArgumentException("Transaction not found with ID: " + id);
+        }
+        TransactionResponse transactionResponse = new TransactionResponse();
+        transactionResponse.setId(transaction.getId());
+        transactionResponse.setDate(transaction.getDate());
+        transactionResponse.setAmount(transaction.getAmount());
+        transactionResponse.setDescription(transaction.getDescription());
+        transactionResponse.setConceptId(transaction.getConcept().getId());
+        transactionResponse.setProductionUnitId(transaction.getProductionUnit().getId());
+        return transactionResponse;
+    }
+
+    @Override
+    public void updateTransaction(TransactionRequest value, Integer id) {
+        Transaction transaction = transactionRepository.findById(id).orElse(null);
+        if (transaction == null) {
+            throw new IllegalArgumentException("Transaction not found with ID: " + id);
+        }
+        transaction.setDate(value.getDate());
+        transaction.setAmount(value.getAmount());
+        transaction.setDescription(value.getDescription());
+        transactionRepository.save(transaction);
+    }
+
+    @Override
+    public void deleteTransaction(Integer id) {
+        transactionRepository.deleteById(id);
+    }
+
+}

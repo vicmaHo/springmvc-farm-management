@@ -24,5 +24,5 @@ public class ProductionUnit {
     private Integer id;
 
     @Column(name = "production_unit_name", nullable = false, unique = true)
-    private String productionUnitName;
+    private String name;
 }
