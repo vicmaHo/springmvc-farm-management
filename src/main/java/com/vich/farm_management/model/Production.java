@@ -18,32 +18,32 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "financial_transaction")
+@Table(name = "production")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Transaction {
+public class Production {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "date", nullable = false)
-    LocalDate date;
+    private LocalDate date;
 
-    @Column(name = "amount", nullable = false, precision = 15, scale = 2)
-    private BigDecimal amount;
+    @Column(name = "quantity", nullable = false, precision = 12, scale = 3)
+    private BigDecimal quantity;
 
-    @Column(name = "description", nullable = true)
-    private String description;
+    @Column(name = "notes", nullable = true)
+    private String notes;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "concept_id", nullable = false)
-    private Concept concept;
+    @JoinColumn(name = "unit_of_measure_id", nullable = false)
+    private UnitOfMeasure unitOfMeasure;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "production_unit_id", nullable = false)
     private ProductionUnit productionUnit;
-
+    
 }
