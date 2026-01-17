@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class UnitOfMeasureRequest {
 
     private String name;
+    private String symbol;
 
 }

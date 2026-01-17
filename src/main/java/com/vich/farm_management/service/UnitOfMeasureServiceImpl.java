@@ -19,6 +19,7 @@ public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
         
         UnitOfMeasure newUnitOfMeasure = new UnitOfMeasure();
         newUnitOfMeasure.setName(value.getName());
+        newUnitOfMeasure.setSymbol(value.getSymbol());
         unitOfMeasureRepository.save(newUnitOfMeasure);
 
     }
@@ -30,6 +31,7 @@ public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
             UnitOfMeasureResponse unitOfMeasureResponse = new UnitOfMeasureResponse();
             unitOfMeasureResponse.setId(unitOfMeasure.getId());
             unitOfMeasureResponse.setName(unitOfMeasure.getName());
+            unitOfMeasureResponse.setSymbol(unitOfMeasure.getSymbol());
             return unitOfMeasureResponse;
         }).toList();
     }
@@ -44,6 +46,7 @@ public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
         UnitOfMeasureResponse unitOfMeasureResponse = new UnitOfMeasureResponse();
         unitOfMeasureResponse.setId(unitOfMeasure.getId());
         unitOfMeasureResponse.setName(unitOfMeasure.getName());
+        unitOfMeasureResponse.setSymbol(unitOfMeasure.getSymbol());
         return unitOfMeasureResponse;
     }
 
@@ -54,6 +57,7 @@ public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
             throw new IllegalArgumentException("UnitOfMeasure not found with ID: " + id);
         }
         unitOfMeasure.setName(value.getName());
+        unitOfMeasure.setSymbol(value.getSymbol());
         unitOfMeasureRepository.save(unitOfMeasure);
     }
 

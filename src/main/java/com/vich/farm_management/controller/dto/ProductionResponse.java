@@ -17,6 +17,7 @@ public class ProductionResponse {
     private Integer id;
     private LocalDate date;
     private BigDecimal quantity;
+    private Integer quantityCount;
     private String notes;
     private Integer unitOfMeasureId;
     private Integer productionUnitId;

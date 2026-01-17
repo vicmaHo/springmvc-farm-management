@@ -42,6 +42,7 @@ public class ProductionServiceImpl implements ProductionService {
         Production production = new Production();
         production.setDate(value.getDate());
         production.setQuantity(value.getQuantity());
+        production.setQuantityCount(value.getQuantityCount());
         production.setNotes(value.getNotes());
         production.setUnitOfMeasure(unitOfMeasure);
         production.setProductionUnit(productionUnit);
@@ -58,6 +59,7 @@ public class ProductionServiceImpl implements ProductionService {
             productionResponse.setId(production.getId());
             productionResponse.setDate(production.getDate());
             productionResponse.setQuantity(production.getQuantity());
+            productionResponse.setQuantityCount(production.getQuantityCount());
             productionResponse.setNotes(production.getNotes());
             productionResponse.setUnitOfMeasureId(production.getUnitOfMeasure().getId());
             productionResponse.setProductionUnitId(production.getProductionUnit().getId());
@@ -78,6 +80,7 @@ public class ProductionServiceImpl implements ProductionService {
         response.setId(production.getId());
         response.setDate(production.getDate());
         response.setQuantity(production.getQuantity());
+        response.setQuantityCount(production.getQuantityCount());
         response.setNotes(production.getNotes());
         response.setUnitOfMeasureId(production.getUnitOfMeasure().getId());
         response.setProductionUnitId(production.getProductionUnit().getId());
@@ -93,6 +96,7 @@ public class ProductionServiceImpl implements ProductionService {
         }
         production.setDate(value.getDate());
         production.setQuantity(value.getQuantity());
+        production.setQuantityCount(value.getQuantityCount());
         production.setNotes(value.getNotes());
         production.setUnitOfMeasure(unitOfMeasureRepository.findById(value.getUnitOfMeasureId()).orElse(null));
         production.setProductionUnit(productionUnitRepository.findById(value.getProductionUnitId()).orElse(null));

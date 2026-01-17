@@ -13,4 +13,5 @@ public class ConceptRequest {
 
     private String name;
     private Integer movementTypeId;
+    private Integer productionUnitId;
 }

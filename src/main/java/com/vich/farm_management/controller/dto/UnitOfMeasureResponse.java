@@ -13,5 +13,6 @@ public class UnitOfMeasureResponse {
 
     private Integer id;
     private String name;
+    private String symbol;
 
 }

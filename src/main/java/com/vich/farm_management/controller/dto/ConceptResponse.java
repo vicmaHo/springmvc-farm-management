@@ -14,4 +14,5 @@ public class ConceptResponse {
     private Integer id;
     private String name;
     private Integer movementTypeId;
+    private Integer productionUnitId;
 }

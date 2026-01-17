@@ -9,8 +9,10 @@ import com.vich.farm_management.controller.dto.ConceptRequest;
 import com.vich.farm_management.controller.dto.ConceptResponse;
 import com.vich.farm_management.model.Concept;
 import com.vich.farm_management.model.MovementType;
+import com.vich.farm_management.model.ProductionUnit;
 import com.vich.farm_management.repository.ConceptRepository;
 import com.vich.farm_management.repository.MovementTypeRepository;
+import com.vich.farm_management.repository.ProductionUnitRepository;
 
 @Service
 public class ConcetpServiceImpl implements ConceptService {
@@ -21,6 +23,9 @@ public class ConcetpServiceImpl implements ConceptService {
     @Autowired
     private MovementTypeRepository movementTypeRepository;
 
+    @Autowired
+    private ProductionUnitRepository productionUnitRepository;
+
     @Override
     public void saveConcept(ConceptRequest value) {
 
@@ -29,9 +34,15 @@ public class ConcetpServiceImpl implements ConceptService {
             throw new IllegalArgumentException("MovementType not found with ID: " + value.getMovementTypeId());
         }
 
+        ProductionUnit productionUnit = productionUnitRepository.findById(value.getProductionUnitId()).orElse(null);
+        if (productionUnit == null) {
+            throw new IllegalArgumentException("ProductionUnit not found with ID: " + value.getProductionUnitId());
+        }
+
         Concept concept = new Concept();
         concept.setName(value.getName());
         concept.setMovementType(movementType);
+        concept.setProductionUnit(productionUnit);
         conceptRepository.save(concept);
     }
 
@@ -44,6 +55,7 @@ public class ConcetpServiceImpl implements ConceptService {
             conceptResponse.setId(concept.getId());
             conceptResponse.setName(concept.getName());
             conceptResponse.setMovementTypeId(concept.getMovementType().getId());
+            conceptResponse.setProductionUnitId(concept.getProductionUnit().getId());
             return conceptResponse;
         }).toList();
     }
@@ -59,6 +71,7 @@ public class ConcetpServiceImpl implements ConceptService {
         conceptResponse.setId(concept.getId());
         conceptResponse.setName(concept.getName());
         conceptResponse.setMovementTypeId(concept.getMovementType().getId());
+        conceptResponse.setProductionUnitId(concept.getProductionUnit().getId());
         return conceptResponse;
     }
 

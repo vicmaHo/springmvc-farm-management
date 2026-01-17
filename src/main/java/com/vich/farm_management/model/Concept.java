@@ -33,4 +33,8 @@ public class Concept {
     @JoinColumn(name = "movement_type_id", nullable = false)
     private MovementType movementType;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional=false)
+    @JoinColumn(name = "production_unit_id", comment = "Production unit related to the concept, can be null for non-production concepts", nullable = true)
+    private ProductionUnit productionUnit;
+    
 }

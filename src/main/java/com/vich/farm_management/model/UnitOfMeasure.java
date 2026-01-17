@@ -26,4 +26,7 @@ public class UnitOfMeasure {
     @Column(name = "unit_of_measure_name", nullable = false, unique = true)
     private String name;
 
+    @Column(name = "unit_of_measure_symbol", nullable = false, unique = true)
+    private String symbol;
+
 }

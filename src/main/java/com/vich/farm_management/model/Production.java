@@ -35,6 +35,9 @@ public class Production {
     @Column(name = "quantity", nullable = false, precision = 12, scale = 3)
     private BigDecimal quantity;
 
+    @Column(name = "quantity_count", comment="Number of units, can be null", nullable = true)
+    private Integer quantityCount;
+
     @Column(name = "notes", nullable = true)
     private String notes;
 
