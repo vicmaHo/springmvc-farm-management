@@ -1,6 +1,13 @@
 services:
   app:
     build: .
-    # environment:
+    container_name: spring_mvc_farm_app
     ports:
       - 8080:8080
+    env_file:
+      - .env
+    environment:
+      SPRING_DATA_SOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}  
+      SPRING_DATA_SOURCE_PASSWORD: ${DB_PASSWORD}
+    restart: unless-stopped
