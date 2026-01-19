@@ -5,14 +5,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.vich.farm_management.controller.dto.TransactionCreateRequest;
 import com.vich.farm_management.controller.dto.TransactionRequest;
 import com.vich.farm_management.controller.dto.TransactionResponse;
+import com.vich.farm_management.controller.dto.TransactionView;
 import com.vich.farm_management.model.Concept;
+import com.vich.farm_management.model.Production;
 import com.vich.farm_management.model.ProductionUnit;
 import com.vich.farm_management.model.Transaction;
+import com.vich.farm_management.model.UnitOfMeasure;
 import com.vich.farm_management.repository.ConceptRepository;
+import com.vich.farm_management.repository.ProductionRepository;
 import com.vich.farm_management.repository.ProductionUnitRepository;
 import com.vich.farm_management.repository.TransactionRepository;
+import com.vich.farm_management.repository.UnitOfMeasureRepository;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -26,8 +32,23 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     private ProductionUnitRepository productionUnitRepository;
 
+    @Autowired
+    private UnitOfMeasureRepository unitOfMeasureRepository;
+
+    @Autowired
+    private ProductionRepository productionRepository;
+
+    /**
+     * Save a new transaction
+     * 
+     * Firtst it checks if the concept and production unit exist
+     * then it creates a new Production, saves it, and finally 
+     * creates a Transaction and saves it
+     * 
+     * @param value
+     */
     @Override
-    public void saveTransaction(TransactionRequest value) {
+    public void saveTransaction(TransactionCreateRequest value) {
         
         Concept concept = conceptRepository.findById(value.getConceptId()).orElse(null);
         if (concept == null) {
@@ -39,13 +60,29 @@ public class TransactionServiceImpl implements TransactionService {
             throw new IllegalArgumentException("ProductionUnit not found with ID: " + value.getProductionUnitId());
         }
 
-        Transaction transaction = new Transaction();
-        transaction.setDate(value.getDate());
-        transaction.setAmount(value.getAmount());
-        transaction.setDescription(value.getDescription());
-        transaction.setConcept(concept);
-        transaction.setProductionUnit(productionUnit);
-        transactionRepository.save(transaction);
+        UnitOfMeasure unitOfMeasure = unitOfMeasureRepository.findById(value.getUnitOfMeasureId()).orElse(null);
+        if (unitOfMeasure == null) {
+            throw new IllegalArgumentException("UnitOfMeasure not found with ID: " + value.getUnitOfMeasureId());
+        }
+
+        Production newProduction = new Production();
+        newProduction.setDate(value.getDate());
+        newProduction.setQuantity(value.getQuantity());
+        newProduction.setQuantityCount(value.getQuantityCount());
+        newProduction.setNotes(value.getNotes());
+        newProduction.setUnitOfMeasure(unitOfMeasure);
+        newProduction.setProductionUnit(productionUnit);
+
+        productionRepository.save(newProduction);
+
+        Transaction newTransaction = new Transaction();
+        newTransaction.setDate(value.getDate());
+        newTransaction.setAmount(value.getAmount());
+        newTransaction.setDescription(value.getDescription());
+        newTransaction.setConcept(concept);
+        newTransaction.setProductionUnit(productionUnit);
+
+        transactionRepository.save(newTransaction);
     }
 
     @Override
@@ -95,6 +132,23 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public void deleteTransaction(Integer id) {
         transactionRepository.deleteById(id);
+    }
+
+    @Override
+    public List<TransactionView> getAllTransactionsView() {
+        return transactionRepository
+                .findAllByOrderByDateDesc()
+                .stream()
+                .map(t -> TransactionView.builder()
+                        .id(t.getId())
+                        .date(t.getDate())
+                        .amount(t.getAmount())
+                        .description(t.getDescription())
+                        .conceptName(t.getConcept().getName())
+                        .productionUnitName(t.getProductionUnit().getName())
+                        .movementTypeName(t.getConcept().getMovementType().getName())
+                        .build())
+                .toList();
     }
 
 }

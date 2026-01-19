@@ -3,12 +3,14 @@ package com.vich.farm_management.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.vich.farm_management.controller.dto.UnitOfMeasureRequest;
 import com.vich.farm_management.controller.dto.UnitOfMeasureResponse;
 import com.vich.farm_management.model.UnitOfMeasure;
 import com.vich.farm_management.repository.UnitOfMeasureRepository;
 
+@Service
 public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
 
     @Autowired
