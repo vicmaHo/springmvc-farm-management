@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.vich.farm_management.controller.dto.ProductionRequest;
 import com.vich.farm_management.controller.dto.ProductionResponse;
+import com.vich.farm_management.controller.dto.ProductionView;
 import com.vich.farm_management.model.Production;
 import com.vich.farm_management.model.ProductionUnit;
 import com.vich.farm_management.model.UnitOfMeasure;
@@ -51,19 +52,19 @@ public class ProductionServiceImpl implements ProductionService {
     }
 
     @Override
-    public List<ProductionResponse> getAllProductions() {
+    public List<ProductionView> getAllProductions() {
         
-        List<Production> productions = productionRepository.findAll();
+        List<Production> productions = productionRepository.findAllByOrderByDateDesc();
         return productions.stream().map(production -> {
-            ProductionResponse productionResponse = new ProductionResponse();
-            productionResponse.setId(production.getId());
-            productionResponse.setDate(production.getDate());
-            productionResponse.setQuantity(production.getQuantity());
-            productionResponse.setQuantityCount(production.getQuantityCount());
-            productionResponse.setNotes(production.getNotes());
-            productionResponse.setUnitOfMeasureId(production.getUnitOfMeasure().getId());
-            productionResponse.setProductionUnitId(production.getProductionUnit().getId());
-            return productionResponse;
+            ProductionView response = new ProductionView();
+            response.setId(production.getId());
+            response.setDate(production.getDate());
+            response.setQuantity(production.getQuantity());
+            response.setQuantityCount(production.getQuantityCount());
+            response.setNotes(production.getNotes());
+            response.setUnitOfMeasureSymbol(unitOfMeasureRepository.findById(production.getUnitOfMeasure().getId()).orElse(null).getSymbol());
+            response.setProductionUnitName(productionUnitRepository.findById(production.getProductionUnit().getId()).orElse(null).getName());
+            return response;
         }).toList();
 
     }

@@ -4,12 +4,13 @@ import java.util.List;
 
 import com.vich.farm_management.controller.dto.ProductionRequest;
 import com.vich.farm_management.controller.dto.ProductionResponse;
+import com.vich.farm_management.controller.dto.ProductionView;
 
 public interface ProductionService {
 
     void saveProduction(ProductionRequest value);
 
-    List<ProductionResponse> getAllProductions();
+    List<ProductionView> getAllProductions();
 
     ProductionResponse getProductionById(Integer id);
 

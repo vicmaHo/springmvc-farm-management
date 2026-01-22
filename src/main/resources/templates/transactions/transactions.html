@@ -28,7 +28,7 @@
                         <p class="text-muted mb-1" th:text="${t.productionUnitName}">
                         </p>
 
-                        <p class="fw-bold fs-5" th:text="${'$ ' + t.amount}">
+                        <p class="fw-bold fs-5" th:text="'$' + ${#numbers.formatDecimal(t.amount, 1, 'POINT', 2, 'COMMA')}">
                         </p>
 
                         <p class="fw-bold mt-0 mb-1" th:text="${t.movementTypeName}" th:classappend="
