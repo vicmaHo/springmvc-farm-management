@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.vich.farm_management.controller.dto.TransactionCreateRequest;
-import com.vich.farm_management.controller.dto.TransactionRequest;
 import com.vich.farm_management.controller.dto.TransactionResponse;
 import com.vich.farm_management.controller.dto.TransactionUpdateRequest;
 import com.vich.farm_management.controller.dto.TransactionView;

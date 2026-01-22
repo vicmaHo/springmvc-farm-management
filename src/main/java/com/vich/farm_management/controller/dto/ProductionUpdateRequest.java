@@ -1,6 +1,7 @@
 package com.vich.farm_management.controller.dto;
 
 
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -13,16 +14,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductionView {
+public class ProductionUpdateRequest {
+
 
     private Integer id;
     private LocalDate date;
     private BigDecimal quantity;
     private Integer quantityCount;
     private String notes;
-    private String unitOfMeasureSymbol;
-    private String unitOfMeasureId;
-    private String productionUnitName;
+    private Integer unitOfMeasureId;
     private Integer productionUnitId;
-
 }

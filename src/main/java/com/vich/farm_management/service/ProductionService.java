@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.vich.farm_management.controller.dto.ProductionRequest;
 import com.vich.farm_management.controller.dto.ProductionResponse;
+import com.vich.farm_management.controller.dto.ProductionUpdateRequest;
 import com.vich.farm_management.controller.dto.ProductionView;
 
 public interface ProductionService {
@@ -14,7 +15,7 @@ public interface ProductionService {
 
     ProductionResponse getProductionById(Integer id);
 
-    void updateProduction(ProductionRequest value, Integer id);
+    void updateProduction(ProductionUpdateRequest value, Integer id);
 
     void deleteProduction(Integer id);
 }

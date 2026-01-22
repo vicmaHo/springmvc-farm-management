@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.vich.farm_management.controller.dto.ProductionRequest;
 import com.vich.farm_management.controller.dto.ProductionResponse;
+import com.vich.farm_management.controller.dto.ProductionUpdateRequest;
 import com.vich.farm_management.controller.dto.ProductionView;
 import com.vich.farm_management.model.Production;
 import com.vich.farm_management.model.ProductionUnit;
@@ -89,7 +90,7 @@ public class ProductionServiceImpl implements ProductionService {
     }
 
     @Override
-    public void updateProduction(ProductionRequest value, Integer id) {
+    public void updateProduction(ProductionUpdateRequest value, Integer id) {
         
         Production production = productionRepository.findById(id).orElse(null);
         if (production == null) {
