@@ -15,6 +15,9 @@ import com.vich.farm_management.service.ProductionUnitService;
 import com.vich.farm_management.service.TransactionService;
 import com.vich.farm_management.service.UnitOfMeasureService;
 
+import com.vich.farm_management.controller.dto.TransactionUpdateRequest;
+
+
 
 @Controller
 @RequestMapping("/transactions")
@@ -39,6 +42,7 @@ public class TransactionController {
         model.addAttribute("concepts", conceptService.getAllConcepts());
         model.addAttribute("productionUnits", productionUnitService.getAllProductionUnits());
         model.addAttribute("unitOfMeasures", unitOfMeasureService.getAllUnitOfMeasures());
+        model.addAttribute("transactionUpdateRequest", new TransactionUpdateRequest());
         return "transactions/transactions";
     }
 
@@ -53,6 +57,13 @@ public class TransactionController {
     public String deleteTransaction(@PathVariable Integer id) {
         System.out.println("Deleting transaction with id: " + id);
         transactionService.deleteTransaction(id);
+        return "redirect:/transactions";
+    }
+    
+
+    @PostMapping("/edit/{id}")
+    public String editTransaction(@ModelAttribute TransactionUpdateRequest value, @PathVariable Integer id) {
+        transactionService.updateTransaction(value, id);
         return "redirect:/transactions";
     }
     

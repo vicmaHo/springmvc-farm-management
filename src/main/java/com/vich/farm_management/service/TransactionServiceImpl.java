@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.vich.farm_management.controller.dto.TransactionCreateRequest;
 import com.vich.farm_management.controller.dto.TransactionRequest;
 import com.vich.farm_management.controller.dto.TransactionResponse;
+import com.vich.farm_management.controller.dto.TransactionUpdateRequest;
 import com.vich.farm_management.controller.dto.TransactionView;
 import com.vich.farm_management.model.Concept;
 import com.vich.farm_management.model.Production;
@@ -123,7 +124,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public void updateTransaction(TransactionRequest value, Integer id) {
+    public void updateTransaction(TransactionUpdateRequest value, Integer id) {
         Transaction transaction = transactionRepository.findById(id).orElse(null);
         if (transaction == null) {
             throw new IllegalArgumentException("Transaction not found with ID: " + id);
@@ -131,6 +132,8 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setDate(value.getDate());
         transaction.setAmount(value.getAmount());
         transaction.setDescription(value.getDescription());
+        transaction.setConcept(conceptRepository.findById(value.getConceptId()).orElse(null));
+        transaction.setProductionUnit(productionUnitRepository.findById(value.getProductionUnitId()).orElse(null));
         transactionRepository.save(transaction);
     }
 
@@ -150,7 +153,9 @@ public class TransactionServiceImpl implements TransactionService {
                         .amount(t.getAmount())
                         .description(t.getDescription())
                         .conceptName(t.getConcept().getName())
+                        .conceptId(t.getConcept().getId())
                         .productionUnitName(t.getProductionUnit().getName())
+                        .productionUnitId(t.getProductionUnit().getId())
                         .movementTypeName(t.getConcept().getMovementType().getName())
                         .build())
                 .toList();
