@@ -1,0 +1,39 @@
+name: Deploy App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Server SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+          envs: PROD_ENV_FILE, REPOSITORY_NAME
+          script: |
+            set -e
+            PROJECT_DIR="/home/${{ secrets.USERNAME }}/$REPOSITORY_NAME"
+            
+            if [ ! -d "$PROJECT_DIR" ]; then
+              git clone https://github.com/${{ github.repository }}.git "$PROJECT_DIR"
+            fi
+            cd "$PROJECT_DIR"
+
+            git fetch --all
+            git reset --hard origin/main
+
+            echo "$PROD_ENV_FILE" > .env.prod
+
+            docker compose up -d --build
+
+            docker image prune -f
+        env:
+          PROD_ENV_FILE: ${{ secrets.PROD_ENV_FILE }}
+          REPOSITORY_NAME: "${{ github.repository }}"
