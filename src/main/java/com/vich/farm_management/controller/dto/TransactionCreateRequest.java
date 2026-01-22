@@ -20,6 +20,10 @@ public class TransactionCreateRequest {
     private String description;
     private Integer conceptId;
     
+
+    // Production (opcional)
+    private boolean createProduction;
+
     // for production
     private BigDecimal quantity;
     private Integer quantityCount;

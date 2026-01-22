@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.vich.farm_management.controller.dto.TransactionRequest;
 import com.vich.farm_management.service.ConceptService;
 import com.vich.farm_management.service.ProductionUnitService;
 import com.vich.farm_management.service.TransactionService;

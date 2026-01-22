@@ -60,20 +60,25 @@ public class TransactionServiceImpl implements TransactionService {
             throw new IllegalArgumentException("ProductionUnit not found with ID: " + value.getProductionUnitId());
         }
 
-        UnitOfMeasure unitOfMeasure = unitOfMeasureRepository.findById(value.getUnitOfMeasureId()).orElse(null);
-        if (unitOfMeasure == null) {
-            throw new IllegalArgumentException("UnitOfMeasure not found with ID: " + value.getUnitOfMeasureId());
+
+
+        if (value.isCreateProduction()) {
+            UnitOfMeasure unitOfMeasure = unitOfMeasureRepository.findById(value.getUnitOfMeasureId()).orElse(null);
+            if (unitOfMeasure == null) {
+                throw new IllegalArgumentException("UnitOfMeasure not found with ID: " + value.getUnitOfMeasureId());
+            }
+            Production newProduction = new Production();
+            newProduction.setDate(value.getDate());
+            newProduction.setQuantity(value.getQuantity());
+            newProduction.setQuantityCount(value.getQuantityCount());
+            newProduction.setNotes(value.getNotes());
+            newProduction.setUnitOfMeasure(unitOfMeasure);
+            newProduction.setProductionUnit(productionUnit);
+
+            productionRepository.save(newProduction);
         }
 
-        Production newProduction = new Production();
-        newProduction.setDate(value.getDate());
-        newProduction.setQuantity(value.getQuantity());
-        newProduction.setQuantityCount(value.getQuantityCount());
-        newProduction.setNotes(value.getNotes());
-        newProduction.setUnitOfMeasure(unitOfMeasure);
-        newProduction.setProductionUnit(productionUnit);
 
-        productionRepository.save(newProduction);
 
         Transaction newTransaction = new Transaction();
         newTransaction.setDate(value.getDate());
