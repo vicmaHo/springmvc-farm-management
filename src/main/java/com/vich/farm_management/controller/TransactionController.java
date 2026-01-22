@@ -5,16 +5,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.vich.farm_management.controller.dto.TransactionCreateRequest;
 import com.vich.farm_management.service.ConceptService;
 import com.vich.farm_management.service.ProductionUnitService;
 import com.vich.farm_management.service.TransactionService;
 import com.vich.farm_management.service.UnitOfMeasureService;
-
-import org.springframework.web.bind.annotation.PostMapping;
-
-import com.vich.farm_management.controller.dto.TransactionCreateRequest;
 
 
 @Controller
@@ -47,6 +46,13 @@ public class TransactionController {
     @PostMapping("/new")
     public String newTransactionProduction(@ModelAttribute TransactionCreateRequest value) {
         transactionService.saveTransaction(value);
+        return "redirect:/transactions";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteTransaction(@PathVariable Integer id) {
+        System.out.println("Deleting transaction with id: " + id);
+        transactionService.deleteTransaction(id);
         return "redirect:/transactions";
     }
     

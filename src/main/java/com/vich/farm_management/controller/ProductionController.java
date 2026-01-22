@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.vich.farm_management.service.ProductionService;
@@ -19,6 +20,12 @@ public class ProductionController {
     public String list(Model model) {
         model.addAttribute("productions", productionService.getAllProductions());
         return "productions/productions";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteProduction(@PathVariable Integer id) {
+        productionService.deleteProduction(id);
+        return "redirect:/productions";
     }
 
 }

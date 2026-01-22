@@ -22,13 +22,13 @@
                             </span>
                         </div>
 
-                        <p class="text-muted mb-1" th:text="${'Cantidad: ' + p.quantityCount}">
+                        <p class="h6" th:text="${'Cantidad: ' + p.quantityCount}">
                         </p>
 
-                        <p class="text-muted mb-1" th:text="${#numbers.formatDecimal(p.quantity, 2, 'POINT', 2, 'COMMA') + ' ' + p.unitOfMeasureSymbol}">
+                        <p class="h6" th:text="${#numbers.formatDecimal(p.quantity, 2, 'POINT', 2, 'COMMA') + ' ' + p.unitOfMeasureSymbol}">
                         </p>
 
-                        <p th:text="${p.notes}"></p>
+                        <p class="text-body-secondary"  th:text="${p.notes}"></p>
 
                     </div>
 
