@@ -16,14 +16,16 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           port: 22
-          envs: PROD_ENV_FILE, REPOSITORY_NAME
+          envs: PROD_ENV_FILE
           script: |
             set -e
-            PROJECT_DIR="/home/${{ secrets.USERNAME }}/$REPOSITORY_NAME"
+            PROJECT_DIR="/home/${{ secrets.USERNAME }}/springmvc-farm-management"
             
+
             if [ ! -d "$PROJECT_DIR" ]; then
-              git clone https://github.com/${{ github.repository }}.git "$PROJECT_DIR"
+              git clone https://github.com/vicmaHo/springmvc-farm-management.git "$PROJECT_DIR"
             fi
+            
             cd "$PROJECT_DIR"
 
             git fetch --all
@@ -36,4 +38,3 @@ jobs:
             docker image prune -f
         env:
           PROD_ENV_FILE: ${{ secrets.PROD_ENV_FILE }}
-          REPOSITORY_NAME: "${{ github.repository }}"
