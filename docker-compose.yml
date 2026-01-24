@@ -7,3 +7,10 @@ services:
     env_file:
       - .env.prod
     restart: unless-stopped
+    networks:
+      - backend
+
+networks:
+  backend:
+    name: backend_network
+    external: true
